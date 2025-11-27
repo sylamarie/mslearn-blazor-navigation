@@ -28,12 +28,13 @@ var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
 using (var scope = scopeFactory.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<PizzaStoreContext>();
-    if (db.Database.EnsureCreated())
+    db.Database.EnsureCreated();
+
+    if (!db.Specials.Any())
     {
         SeedData.Initialize(db);
     }
 }
-
 
 app.Run();
 
